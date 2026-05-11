@@ -65,9 +65,8 @@ Plain HTML, CSS, and JavaScript application. All data is fetched from the backen
 ## API Calls Made by Frontend
 
 ### Auth
-- Register: sends name and email, triggers OTP email
-- Verify OTP: sends the OTP code entered by the user
-- Set Password: sends the chosen password after OTP is verified
+- Send OTP: sends name and email, triggers OTP email
+- Register: sends the OTP code entered by the user and the chosen password to backend
 - Login: sends email and password — the backend sets the JWT as a cookie automatically
 - Logout: calls the logout endpoint so the backend clears the JWT cookie
 - Session Check: called on every page load to verify the session and retrieve the user's role
