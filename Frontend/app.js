@@ -146,6 +146,7 @@ async function login(e) {
     const response = await apiCall('/auth/login', 'POST', { email, password });
     if (response.ok) {
         currentUser = await response.json();
+        if (currentUser.token) localStorage.setItem('authToken', currentUser.token);
         showToast(`Welcome back, ${currentUser.name}`, 'success');
         updateUIForUser();
     }
@@ -153,6 +154,7 @@ async function login(e) {
 
 async function logout() {
     await apiCall('/auth/logout', 'POST');
+    localStorage.removeItem('authToken');
     currentUser = null;
     nav.classList.add('hidden');
     showSection('login');
@@ -260,6 +262,11 @@ async function apiCall(endpoint, method, body = null) {
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include'
     };
+
+    const token = localStorage.getItem('authToken');
+    if (token) {
+        options.headers['Authorization'] = `Bearer ${token}`;
+    }
     if (body) options.body = JSON.stringify(body);
 
     try {

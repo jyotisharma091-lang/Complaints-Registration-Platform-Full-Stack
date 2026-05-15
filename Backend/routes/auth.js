@@ -123,6 +123,7 @@ router.post('/login', async (req, res) => {
       name: userData.name,
       email: userData.email,
       role: userData.role,
+      token: token
     });
   } catch (error) {
     console.error('Login error:', error);
@@ -136,9 +137,11 @@ router.post('/logout', (req, res) => {
   res.json({ message: 'Logged out successfully' });
 });
 
-// GET /api/auth/me
 router.get('/me', async (req, res) => {
-  const token = req.cookies.token;
+  let token = req.cookies.token;
+  if (!token && req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
 
   if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });

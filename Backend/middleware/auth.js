@@ -1,7 +1,10 @@
 const jwt = require('jsonwebtoken');
 
 const authenticate = (req, res, next) => {
-  const token = req.cookies.token;
+  let token = req.cookies.token;
+  if (!token && req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
 
   if (!token) {
     console.warn('Auth failed: No token found in cookies');
