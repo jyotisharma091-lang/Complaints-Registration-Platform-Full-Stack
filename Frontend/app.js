@@ -14,14 +14,6 @@ const sections = {
     myComplaints: document.getElementById('my-complaints-page'),
     admin: document.getElementById('admin-dashboard')
 };
-//Midleware
-const cors = require('cors');
-
-app.use(cors({
-    origin: 'https://complaints-registration-platform-full-nfo0.onrender.com',
-    credentials: true
-}));
-
 const nav = document.getElementById('main-nav');
 const userInfo = document.getElementById('user-info');
 const toast = document.getElementById('toast');
