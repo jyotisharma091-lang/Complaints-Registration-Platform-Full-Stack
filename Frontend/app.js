@@ -1,11 +1,10 @@
-const BACKEND_BASE_URL = window.location.hostname === 'localhost' && window.location.port === '3000' 
-    ? '' 
-    : 'http://localhost:3000';
+const BACKEND_BASE_URL = 'https://complaints-registration-platform-full-nfo0.onrender.com';
 const API_URL = `${BACKEND_BASE_URL}/api`;
 
 // State Management
 let currentUser = null;
 let currentAIQuestion = '';
+
 
 // DOM Elements
 const sections = {
@@ -15,6 +14,13 @@ const sections = {
     myComplaints: document.getElementById('my-complaints-page'),
     admin: document.getElementById('admin-dashboard')
 };
+//Midleware
+const cors = require('cors');
+
+app.use(cors({
+    origin: 'https://complaints-registration-platform-full-nfo0.onrender.com',
+    credentials: true
+}));
 
 const nav = document.getElementById('main-nav');
 const userInfo = document.getElementById('user-info');
@@ -44,7 +50,7 @@ async function checkSession() {
 function updateUIForUser() {
     nav.classList.remove('hidden');
     userInfo.textContent = `${currentUser.name} (${currentUser.role})`;
-    
+
     if (currentUser.role === 'admin') {
         showSection('admin');
         fetchAdminComplaints();
@@ -58,7 +64,7 @@ function updateUIForUser() {
 function showSection(sectionName) {
     Object.values(sections).forEach(s => s.classList.add('hidden'));
     sections[sectionName].classList.remove('hidden');
-    
+
     // Reset forms if needed
     if (sectionName === 'register') {
         document.getElementById('register-form').classList.remove('hidden');
@@ -74,7 +80,7 @@ function setupEventListeners() {
     document.getElementById('show-register').addEventListener('click', () => showSection('register'));
     document.getElementById('show-submit-page').addEventListener('click', () => showSection('submit'));
     document.getElementById('back-to-my-complaints').addEventListener('click', () => showSection('myComplaints'));
-    
+
     document.getElementById('logout-btn').addEventListener('click', logout);
 
     // Auth Forms
@@ -260,7 +266,7 @@ async function apiCall(endpoint, method, body = null) {
         if (!response.ok) {
             const errorData = await response.json();
             showToast(errorData.message || 'Something went wrong', 'error');
-            
+
             if (response.status === 401) {
                 currentUser = null;
                 showSection('login');
