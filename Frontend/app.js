@@ -1,5 +1,5 @@
-const BACKEND_BASE_URL = 'https://complaints-registration-platform-full-nfo0.onrender.com';
-const API_URL = `${BACKEND_BASE_URL}/api`;
+const BACKEND_BASE_URL = ''; // Empty string for relative path (same-origin), update to render.com for production
+const API_URL = `/api`;
 
 // State Management
 let currentUser = null;
@@ -20,8 +20,8 @@ const toast = document.getElementById('toast');
 
 // Initialization
 document.addEventListener('DOMContentLoaded', async () => {
-    await checkSession();
     setupEventListeners();
+    await checkSession();
 });
 
 // Session Management
@@ -92,7 +92,16 @@ async function sendOTP(e) {
     const name = document.getElementById('reg-name').value;
     const email = document.getElementById('reg-email').value;
 
+    const btn = e.target.querySelector('button[type="submit"]');
+    const originalText = btn.textContent;
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
     const response = await apiCall('/auth/send-otp', 'POST', { name, email });
+    
+    btn.textContent = originalText;
+    btn.disabled = false;
+
     if (response.ok) {
         showToast('OTP sent to your email', 'success');
         document.getElementById('register-form').classList.add('hidden');
