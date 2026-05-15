@@ -1,4 +1,4 @@
-const BACKEND_BASE_URL = ''; // Empty string for relative path (same-origin), update to render.com for production
+const BACKEND_BASE_URL = 'https://complaints-registration-platform-full-nfo0.onrender.com'; // Empty string for relative path (same-origin), update to render.com for production
 const API_URL = `/api`;
 
 // State Management
@@ -98,7 +98,7 @@ async function sendOTP(e) {
     btn.disabled = true;
 
     const response = await apiCall('/auth/send-otp', 'POST', { name, email });
-    
+
     btn.textContent = originalText;
     btn.disabled = false;
 
