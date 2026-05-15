@@ -113,8 +113,8 @@ router.post('/login', async (req, res) => {
 
     res.cookie('token', token, {
       httpOnly: false, // Per requirements: not HttpOnly for easier local testing
-      secure: false,   // Per requirements: not Secure
-      sameSite: 'lax', // Per requirements: not Strict
+      secure: true,    // Must be true for cross-origin (Render & GitHub Pages)
+      sameSite: 'none', // Must be 'none' to allow cross-origin cookies
       maxAge: 24 * 60 * 60 * 1000,
       path: '/',
     });
