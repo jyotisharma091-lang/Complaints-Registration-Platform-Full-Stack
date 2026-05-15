@@ -1,5 +1,5 @@
-const BACKEND_BASE_URL = 'https://complaints-registration-platform-full-nfo0.onrender.com'; // Empty string for relative path (same-origin), update to render.com for production
-const API_URL = `/api`;
+const BACKEND_BASE_URL = 'https://complaints-registration-platform-full-nfo0.onrender.com'; // Change to http://localhost:3000 for local development
+const API_URL = `${BACKEND_BASE_URL}/api`;
 
 // State Management
 let currentUser = null;
